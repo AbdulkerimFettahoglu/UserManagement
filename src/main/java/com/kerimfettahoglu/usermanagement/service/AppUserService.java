@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.kerimfettahoglu.usermanagement.controller.dto.CreateAppUserRequest;
 import com.kerimfettahoglu.usermanagement.entity.AppUser;
 import com.kerimfettahoglu.usermanagement.repository.AppUserRepository;
 
@@ -30,6 +31,16 @@ public class AppUserService implements UserDetailsService {
 	
 	public List<AppUser> findAll() {
 		return appUserRepository.findAll();
+	}
+	
+	public Boolean save(CreateAppUserRequest createAppUserRequest) {
+		AppUser user = new AppUser();
+		user.setEmail(createAppUserRequest.getEmail());
+		user.setFirstName(createAppUserRequest.getFirstname());
+		user.setLastName(createAppUserRequest.getLastname());
+		user.setFirstName(createAppUserRequest.getPassword());
+		appUserRepository.save(user);
+		return true;
 	}
 
 }
