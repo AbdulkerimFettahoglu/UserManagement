@@ -34,7 +34,7 @@ public class AppUser implements UserDetails {
 	private String email;
 	private String password;
 	@Enumerated(EnumType.STRING)
-	private AppUserRole appUserRole;
+	private AppUserRole appUserRole = AppUserRole.STANDART_USER;
 	private Boolean locked = false;
 	private Boolean enabled = true;
 
@@ -43,7 +43,6 @@ public class AppUser implements UserDetails {
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.appUserRole = appUserRole;
 	}
 
 	@Override
