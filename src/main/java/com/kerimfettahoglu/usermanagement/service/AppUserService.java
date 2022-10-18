@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kerimfettahoglu.usermanagement.controller.dto.CreateAppUserRequest;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class AppUserService implements UserDetailsService {
 
 	private final AppUserRepository appUserRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,7 +40,7 @@ public class AppUserService implements UserDetailsService {
 		user.setEmail(createAppUserRequest.getEmail());
 		user.setFirstName(createAppUserRequest.getFirstname());
 		user.setLastName(createAppUserRequest.getLastname());
-		user.setPassword(createAppUserRequest.getPassword());
+		user.setPassword(bCryptPasswordEncoder.encode(createAppUserRequest.getPassword()));
 		appUserRepository.save(user);
 		return true;
 	}
