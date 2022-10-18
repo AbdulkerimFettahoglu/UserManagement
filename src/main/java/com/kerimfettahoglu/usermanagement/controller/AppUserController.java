@@ -22,13 +22,13 @@ public class AppUserController {
 	
 	private final AppUserService appUserService;
 	
-	@GetMapping("all")
+	@GetMapping("/all")
 	public List<AppUser> findAll() {
 		return appUserService.findAll();
 	}
 	
 	@PostMapping
-	public boolean save(@RequestBody CreateAppUserRequest createAppUserRequest) {
-		return true;
+	public Boolean save(@RequestBody CreateAppUserRequest createAppUserRequest) {
+		return appUserService.save(createAppUserRequest);
 	}
 }
