@@ -38,7 +38,7 @@ public class AppUserService implements UserDetailsService {
 		user.setEmail(createAppUserRequest.getEmail());
 		user.setFirstName(createAppUserRequest.getFirstname());
 		user.setLastName(createAppUserRequest.getLastname());
-		user.setFirstName(createAppUserRequest.getPassword());
+		user.setPassword(createAppUserRequest.getPassword());
 		appUserRepository.save(user);
 		return true;
 	}
