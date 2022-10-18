@@ -1,5 +1,6 @@
 package com.kerimfettahoglu.usermanagement.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,10 @@ public class AppUserService implements UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 		return appUser.get();
+	}
+	
+	public List<AppUser> findAll() {
+		return appUserRepository.findAll();
 	}
 
 }
