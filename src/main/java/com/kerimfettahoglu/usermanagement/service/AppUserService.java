@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.kerimfettahoglu.usermanagement.controller.dto.CreateAppUserRequest;
+import com.kerimfettahoglu.usermanagement.controller.dto.UpdateAppUserRequest;
 import com.kerimfettahoglu.usermanagement.entity.AppUser;
 import com.kerimfettahoglu.usermanagement.repository.AppUserRepository;
 import com.kerimfettahoglu.usermanagement.service.exception.AppUserNotFoundException;
@@ -73,6 +74,19 @@ public class AppUserService implements UserDetailsService {
 		if (user.isEmpty())
 			throw new AppUserNotFoundException(id);
 		appUserRepository.delete(user.get());
+		return true;
+	}
+	
+	public Boolean updateUser(UpdateAppUserRequest updateRequest) {
+		Optional<AppUser> user = appUserRepository.findById(updateRequest.getId());
+		if (user.isEmpty())
+			throw new AppUserNotFoundException(updateRequest.getId());
+		AppUser newUser = user.get();
+		newUser.setEmail(updateRequest.getEmail());
+		newUser.setFirstName(updateRequest.getFirstname());
+		newUser.setLastName(updateRequest.getLastname());
+		newUser.setPassword(bCryptPasswordEncoder.encode(updateRequest.getPassword()));
+		appUserRepository.save(newUser);
 		return true;
 	}
 }
