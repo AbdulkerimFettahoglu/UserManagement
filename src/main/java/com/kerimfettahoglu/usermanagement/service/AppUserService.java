@@ -15,6 +15,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.kerimfettahoglu.usermanagement.controller.dto.CreateAppUserRequest;
 import com.kerimfettahoglu.usermanagement.entity.AppUser;
 import com.kerimfettahoglu.usermanagement.repository.AppUserRepository;
+import com.kerimfettahoglu.usermanagement.service.exception.AppUserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,13 @@ public class AppUserService implements UserDetailsService {
 		Algorithm algo = Algorithm.HMAC256(ALGORITHM_KEY.getBytes());
 		String accessToken = JWT.create().withSubject(username).withExpiresAt(new Date(System.currentTimeMillis() + (10 * 60 * 1000))).withIssuer("com.kerimfettahoglu").sign(algo);
 		return accessToken;
+	}
+	
+	public AppUser findUser(Long id) {
+		Optional<AppUser> user = appUserRepository.findById(id);
+		if (user.isEmpty())
+			throw new AppUserNotFoundException(id);
+		return user.get();
 	}
 
 }
