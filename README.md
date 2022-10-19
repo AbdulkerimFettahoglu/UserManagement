@@ -76,7 +76,7 @@ Veritabanında kullanıcı getirmek için aşağıdaki URI adresini kullanın ve
 (GET)http://localhost:8080/user/find?id=1
 ```
 
-## Get User
+## Get All User
 Veritabanındaki tüm kullanıcıları getirmek için aşağıdaki URI adresini kullanın
 
 ```
@@ -90,5 +90,5 @@ Kullanıcı silmek için aşağıdaki URI adresini kullanın ve id değeri verin
 (DELETE)http://localhost:8080/user/delete?id=1
 ```
 
-##Örnek İstekler
+## Örnek İstekler
 Örnek istekler için "UserManagement.postman_collection.json" dosyasını indirip Postman uygulaması ile kullanabilirsiniz.
