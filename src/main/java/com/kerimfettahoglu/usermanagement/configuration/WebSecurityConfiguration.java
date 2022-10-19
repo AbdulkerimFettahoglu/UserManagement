@@ -34,7 +34,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll();
+		http.authorizeRequests().antMatchers("/v2/api-docs").permitAll();
+		http.authorizeRequests().antMatchers("/swagger-resources").permitAll();
+		http.authorizeRequests().antMatchers("/swagger-resources/**").permitAll();
+		http.authorizeRequests().antMatchers("/configuration/ui").permitAll();
+		http.authorizeRequests().antMatchers("/configuration/security").permitAll();
+		http.authorizeRequests().antMatchers("/swagger-ui.html").permitAll();
+		http.authorizeRequests().antMatchers("/webjars/**").permitAll();
+		http.authorizeRequests().antMatchers("/v3/api-docs/**").permitAll();
+		http.authorizeRequests().antMatchers("/swagger-ui/**").permitAll();
 		http.authorizeRequests().anyRequest().authenticated();
+		//http.authorizeRequests().anyRequest().permitAll();
 		http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
 		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
