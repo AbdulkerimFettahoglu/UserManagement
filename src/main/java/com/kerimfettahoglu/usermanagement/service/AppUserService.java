@@ -68,4 +68,11 @@ public class AppUserService implements UserDetailsService {
 		return user.get();
 	}
 
+	public Boolean deleteUser(Long id) {
+		Optional<AppUser> user = appUserRepository.findById(id);
+		if (user.isEmpty())
+			throw new AppUserNotFoundException(id);
+		appUserRepository.delete(user.get());
+		return true;
+	}
 }
