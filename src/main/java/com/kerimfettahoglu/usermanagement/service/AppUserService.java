@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.kerimfettahoglu.usermanagement.configuration.PasswordEncoder;
 import com.kerimfettahoglu.usermanagement.controller.dto.CreateAppUserRequest;
 import com.kerimfettahoglu.usermanagement.controller.dto.UpdateAppUserRequest;
 import com.kerimfettahoglu.usermanagement.entity.AppUser;
@@ -28,7 +29,6 @@ public class AppUserService implements UserDetailsService {
 
 	private final AppUserRepository appUserRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	private static final String ALGORITHM_KEY = "our_key";
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -57,7 +57,7 @@ public class AppUserService implements UserDetailsService {
 		String username = user.getEmail();
 		String password = user.getPassword();
 		log.info("username :{}, password:{}", username, password);
-		Algorithm algo = Algorithm.HMAC256(ALGORITHM_KEY.getBytes());
+		Algorithm algo = Algorithm.HMAC256(PasswordEncoder.ALGORITHM_KEY.getBytes());
 		String accessToken = JWT.create().withSubject(username).withExpiresAt(new Date(System.currentTimeMillis() + (10 * 60 * 1000))).withIssuer("com.kerimfettahoglu").sign(algo);
 		return accessToken;
 	}

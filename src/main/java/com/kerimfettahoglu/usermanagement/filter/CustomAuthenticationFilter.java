@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.kerimfettahoglu.usermanagement.configuration.PasswordEncoder;
 import com.kerimfettahoglu.usermanagement.entity.AppUser;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	private static final String ALGORITHM_KEY = "our_key";
 	private final AuthenticationManager authenticationManager;
 	
 	@Override
@@ -41,7 +41,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 		AppUser user = (AppUser) authResult.getPrincipal();
-		Algorithm algo = Algorithm.HMAC256(ALGORITHM_KEY.getBytes());
+		Algorithm algo = Algorithm.HMAC256(PasswordEncoder.ALGORITHM_KEY.getBytes());
 		String accessToken = JWT.create().withSubject(user.getUsername()).withExpiresAt(new Date(System.currentTimeMillis() + (10 * 60 * 1000))).withIssuer("com.kerimfettahoglu").sign(algo);
 		String refreshToken = JWT.create().withSubject(user.getUsername()).withExpiresAt(new Date(System.currentTimeMillis() + (30 * 60 * 1000))).withIssuer("com.kerimfettahoglu").sign(algo);
 		response.setHeader("access_token", accessToken);
