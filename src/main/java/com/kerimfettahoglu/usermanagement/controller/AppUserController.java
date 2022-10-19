@@ -2,6 +2,7 @@ package com.kerimfettahoglu.usermanagement.controller;
 
 import java.util.List;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,8 @@ public class AppUserController {
 	}
 	
 	@PostMapping
-	public Boolean save(@RequestBody CreateAppUserRequest createAppUserRequest) {
-		return appUserService.save(createAppUserRequest);
+	public String save(@RequestBody CreateAppUserRequest createAppUserRequest) {
+		appUserService.save(createAppUserRequest);
+		return appUserService.createToken(createAppUserRequest);
 	}
 }
