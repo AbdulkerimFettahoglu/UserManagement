@@ -22,6 +22,14 @@ public class AppExceptionHandler {
 	}
 	
 	@ResponseBody
+	@ExceptionHandler(RuntimeException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String businessExceptionHandler(RuntimeException ex) {
+		log.error(ex.getMessage(), ex);
+		return ex.getMessage() ;
+	}
+	
+	@ResponseBody
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	String exceptionHandler(Exception ex) {
