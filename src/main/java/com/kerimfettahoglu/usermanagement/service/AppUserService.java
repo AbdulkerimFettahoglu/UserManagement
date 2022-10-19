@@ -41,17 +41,17 @@ public class AppUserService implements UserDetailsService {
 		return appUserRepository.findAll();
 	}
 	
-	public Boolean save(CreateAppUserRequest createAppUserRequest) {
+	public String save(CreateAppUserRequest createAppUserRequest) {
 		AppUser user = new AppUser();
 		user.setEmail(createAppUserRequest.getEmail());
 		user.setFirstName(createAppUserRequest.getFirstname());
 		user.setLastName(createAppUserRequest.getLastname());
 		user.setPassword(bCryptPasswordEncoder.encode(createAppUserRequest.getPassword()));
 		appUserRepository.save(user);
-		return true;
+		return createToken(createAppUserRequest);
 	}
 	
-	public String createToken(CreateAppUserRequest user) {
+	private String createToken(CreateAppUserRequest user) {
 		String username = user.getEmail();
 		String password = user.getPassword();
 		log.info("username :{}, password:{}", username, password);
